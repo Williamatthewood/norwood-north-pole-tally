@@ -8,9 +8,10 @@
         :root {
             --purple: #4B2E83;
             --yellow: #F6CE15;
-            --text-dark: #222;
+            --dark-text: #222222;
         }
-        
+
+        /* Prevent system text selection and force modern touch handling */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -21,119 +22,116 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f7f9fa;
-            color: var(--text-dark);
-            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #fcfcfc;
+            color: var(--dark-text);
             display: flex;
             flex-direction: column;
+            height: 100vh;
+            height: 100dvh; /* Uses full mobile viewport dynamic height */
             overflow: hidden;
         }
 
+        /* Expanded Top Banner Section */
         header {
             background-color: var(--purple);
             color: white;
-            padding: 8px 12px;
+            padding: 14px 16px;
             text-align: center;
-            border-bottom: 4px solid var(--yellow);
+            border-bottom: 5px solid var(--yellow);
             flex-shrink: 0;
         }
 
         header h1 {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 2px;
+            font-size: 1.35rem;
+            font-weight: 800;
             color: var(--yellow);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         header p {
-            font-size: 0.72rem;
-            line-height: 1.2;
+            font-size: 0.85rem;
+            line-height: 1.3;
             font-weight: 500;
+            max-width: 480px;
+            margin: 0 auto;
         }
 
+        /* Compressed 3x3 Non-Scrolling Grid Viewports */
         .grid-container {
-            flex: 1;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(3, 1fr);
-            gap: 6px;
-            padding: 6px;
-            background-color: #eef2f5;
+            gap: 5px;
+            padding: 5px;
+            flex-grow: 1;
+            overflow: hidden;
         }
 
-        .gift-card {
+        /* Slightly smaller box height profiles */
+        .grid-item {
             border-radius: 8px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 6px;
+            padding: 4px 6px;
             position: relative;
-            border-bottom: 3px solid rgba(0,0,0,0.15);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: inset 0 -3px 0 rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.08);
         }
 
-        /* Color Coding Tiers */
-        .tier-075 { background-color: #E8F5E9; border: 1.5px solid #81C784; }
-        .tier-1   { background-color: #E3F2FD; border: 1.5px solid #64B5F6; }
-        .tier-2   { background-color: #F3E5F5; border: 1.5px solid #BA68C8; }
-        .tier-3   { background-color: #FFF3E0; border: 1.5px solid #FFB74D; }
-        .tier-5   { background-color: #E0F2F1; border: 1.5px solid #4DB6AC; }
-        .tier-7   { background-color: #FFFDE7; border: 1.5px solid #FFF176; }
-        .tier-10  { background-color: #FCE4EC; border: 1.5px solid #F06292; }
-        .tier-12  { background-color: #EFEBE9; border: 1.5px solid #A1887F; }
-        .tier-15  { background-color: #ECEFF1; border: 1.5px solid #90A4AE; }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+        /* Purple Running Count Badge at top right */
+        .count-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background-color: var(--purple);
+            color: var(--yellow);
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 1px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
         }
 
         .price-label {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             font-weight: 800;
-        }
-
-        .badge-count {
-            background-color: var(--purple);
-            color: white;
-            border-radius: 12px;
-            padding: 1px 7px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            min-width: 20px;
-            text-align: center;
-            border: 1px solid var(--yellow);
-        }
-
-        .subtotal-label {
-            font-size: 0.72rem;
-            color: #444;
-            font-weight: 600;
             margin-top: 1px;
-            white-space: nowrap;
+            color: #111;
         }
 
-        .action-buttons {
+        /* Simplified clean subtotal label */
+        .subtotal-label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: auto;
+            padding-top: 1px;
+        }
+
+        .button-group {
             display: flex;
-            gap: 4px;
+            gap: 5px;
+            width: 100%;
             margin-top: auto;
         }
 
         .btn {
             flex: 1;
             border: none;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 1.25rem;
-            padding: 8px 0;
             color: white;
+            font-size: 1.25rem;
+            font-weight: bold;
+            padding: 6px 0;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+            box-shadow: 0 2px 0 rgba(0,0,0,0.15);
+            touch-action: manipulation;
         }
 
         .btn:active {
@@ -141,25 +139,33 @@
             box-shadow: none;
         }
 
-        .btn-minus {
-            background-color: #e53935;
-        }
-        .btn-plus {
-            background-color: #43a047;
-        }
+        .btn-minus { background-color: #d9534f; }
+        .btn-plus { background-color: #5cb85c; }
 
+        /* Accessible Pastels Grid Layouts */
+        .item-075 { background-color: #E8F5E9; border: 1.5px solid #A5D6A7; }
+        .item-100 { background-color: #E3F2FD; border: 1.5px solid #90CAF9; }
+        .item-200 { background-color: #F3E5F5; border: 1.5px solid #CE93D8; }
+        .item-300 { background-color: #FFF3E0; border: 1.5px solid #FFCC80; }
+        .item-500 { background-color: #E0F2F1; border: 1.5px solid #80CBC4; }
+        .item-700 { background-color: #FCE4EC; border: 1.5px solid #F48FB1; }
+        .item-1000 { background-color: #E8EAF6; border: 1.5px solid #9FA8DA; }
+        .item-1200 { background-color: #E0F7FA; border: 1.5px solid #80DEEA; }
+        .item-1500 { background-color: #FFFDE7; border: 1.5px solid #FFF59D; }
+
+        /* Enlarged Bottom Summary Panel */
         footer {
-            background-color: #fff;
-            padding: 10px 12px;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 16px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-top: 3px solid var(--purple);
+            border-top: 4px solid var(--yellow);
             flex-shrink: 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
         }
 
-        .total-box {
+        .total-container {
             display: flex;
             flex-direction: column;
         }
@@ -167,32 +173,51 @@
         .total-title {
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #666;
+            color: #b3b3b3;
             font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
         }
 
         .total-amount {
-            font-size: 1.8rem;
+            font-size: 2.3rem;
             font-weight: 900;
-            color: var(--purple);
+            color: var(--yellow);
             line-height: 1;
         }
 
+        /* Dynamic Conditional State Reset Button */
         .btn-reset {
-            background-color: #757575;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-weight: 700;
+            padding: 10px 18px;
             font-size: 0.9rem;
-            box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+            font-weight: 800;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            border: none;
         }
-        .btn-reset:active {
-            background-color: #616161;
-            transform: translateY(1px);
+
+        /* Inactive State style profiles */
+        .btn-reset.inactive {
+            background-color: #333333;
+            color: #666666;
+            cursor: not-allowed;
             box-shadow: none;
+        }
+
+        /* Active State style profiles */
+        .btn-reset.active {
+            background-color: #d9534f;
+            color: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 3px 0 #b03c39;
+        }
+
+        .btn-reset.active:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 0 #b03c39;
         }
     </style>
 </head>
@@ -204,110 +229,90 @@
     </header>
 
     <div class="grid-container">
-        <!-- Tiers -->
-        <div class="gift-card tier-075" data-price="0.75">
-            <div class="card-header">
-                <span class="price-label">$0.75</span>
-                <span class="badge-count" id="count-075">0</span>
-            </div>
+        <!-- 0.75 -->
+        <div class="grid-item item-075" data-price="0.75">
+            <div class="count-badge" id="count-075">0</div>
+            <div class="price-label">$0.75</div>
             <div class="subtotal-label" id="sub-075">Subtotal: $0.00</div>
-            <div class="action-buttons">
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-
-        <div class="gift-card tier-1" data-price="1.00">
-            <div class="card-header">
-                <span class="price-label">$1.00</span>
-                <span class="badge-count" id="count-1">0</span>
-            </div>
-            <div class="subtotal-label" id="sub-1">Subtotal: $0.00</div>
-            <div class="action-buttons">
+        <!-- 1.00 -->
+        <div class="grid-item item-100" data-price="1.00">
+            <div class="count-badge" id="count-100">0</div>
+            <div class="price-label">$1</div>
+            <div class="subtotal-label" id="sub-100">Subtotal: $0.00</div>
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-
-        <div class="gift-card tier-2" data-price="2.00">
-            <div class="card-header">
-                <span class="price-label">$2.00</span>
-                <span class="badge-count" id="count-2">0</span>
-            </div>
-            <div class="subtotal-label" id="sub-2">Subtotal: $0.00</div>
-            <div class="action-buttons">
+        <!-- 2.00 -->
+        <div class="grid-item item-200" data-price="2.00">
+            <div class="count-badge" id="count-200">0</div>
+            <div class="price-label">$2</div>
+            <div class="subtotal-label" id="sub-200">Subtotal: $0.00</div>
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-
-        <div class="gift-card tier-3" data-price="3.00">
-            <div class="card-header">
-                <span class="price-label">$3.00</span>
-                <span class="badge-count" id="count-3">0</span>
-            </div>
-            <div class="subtotal-label" id="sub-3">Subtotal: $0.00</div>
-            <div class="action-buttons">
+        <!-- 3.00 -->
+        <div class="grid-item item-300" data-price="3.00">
+            <div class="count-badge" id="count-300">0</div>
+            <div class="price-label">$3</div>
+            <div class="subtotal-label" id="sub-300">Subtotal: $0.00</div>
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-
-        <div class="gift-card tier-5" data-price="5.00">
-            <div class="card-header">
-                <span class="price-label">$5.00</span>
-                <span class="badge-count" id="count-5">0</span>
-            </div>
-            <div class="subtotal-label" id="sub-5">Subtotal: $0.00</div>
-            <div class="action-buttons">
+        <!-- 5.00 -->
+        <div class="grid-item item-500" data-price="5.00">
+            <div class="count-badge" id="count-500">0</div>
+            <div class="price-label">$5</div>
+            <div class="subtotal-label" id="sub-500">Subtotal: $0.00</div>
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-
-        <div class="gift-card tier-7" data-price="7.00">
-            <div class="card-header">
-                <span class="price-label">$7.00</span>
-                <span class="badge-count" id="count-7">0</span>
-            </div>
-            <div class="subtotal-label" id="sub-7">Subtotal: $0.00</div>
-            <div class="action-buttons">
+        <!-- 7.00 -->
+        <div class="grid-item item-700" data-price="7.00">
+            <div class="count-badge" id="count-700">0</div>
+            <div class="price-label">$7</div>
+            <div class="subtotal-label" id="sub-700">Subtotal: $0.00</div>
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-
-        <div class="gift-card tier-10" data-price="10.00">
-            <div class="card-header">
-                <span class="price-label">$10.00</span>
-                <span class="badge-count" id="count-10">0</span>
-            </div>
-            <div class="subtotal-label" id="sub-10">Subtotal: $0.00</div>
-            <div class="action-buttons">
+        <!-- 10.00 -->
+        <div class="grid-item item-1000" data-price="10.00">
+            <div class="count-badge" id="count-1000">0</div>
+            <div class="price-label">$10</div>
+            <div class="subtotal-label" id="sub-1000">Subtotal: $0.00</div>
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-
-        <div class="gift-card tier-12" data-price="12.00">
-            <div class="card-header">
-                <span class="price-label">$12.00</span>
-                <span class="badge-count" id="count-12">0</span>
-            </div>
-            <div class="subtotal-label" id="sub-12">Subtotal: $0.00</div>
-            <div class="action-buttons">
+        <div class="grid-item item-1200" data-price="12.00">
+            <div class="count-badge" id="count-1200">0</div>
+            <div class="price-label">$12</div>
+            <div class="subtotal-label" id="sub-1200">Subtotal: $0.00</div>
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-
-        <div class="gift-card tier-15" data-price="15.00">
-            <div class="card-header">
-                <span class="price-label">$15.00</span>
-                <span class="badge-count" id="count-15">0</span>
-            </div>
-            <div class="subtotal-label" id="sub-15">Subtotal: $0.00</div>
-            <div class="action-buttons">
+        <div class="grid-item item-1500" data-price="15.00">
+            <div class="count-badge" id="count-1500">0</div>
+            <div class="price-label">$15</div>
+            <div class="subtotal-label" id="sub-1500">Subtotal: $0.00</div>
+            <div class="button-group">
                 <button class="btn btn-minus" data-action="minus">−</button>
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
@@ -315,85 +320,96 @@
     </div>
 
     <footer>
-        <div class="total-box">
+        <div class="total-container">
             <span class="total-title">Total Amount Due</span>
             <span class="total-amount" id="grand-total">$0.00</span>
         </div>
-        <button class="btn-reset" id="reset-btn">Reset All</button>
+        <button class="btn-reset inactive" id="reset-btn" disabled>Reset All</button>
     </footer>
 
     <script>
-        const counts = {
+        const state = {
             '0.75': 0, '1.00': 0, '2.00': 0, '3.00': 0, '5.00': 0,
             '7.00': 0, '10.00': 0, '12.00': 0, '15.00': 0
         };
 
-        const idMap = {
-            '0.75': '075', '1.00': '1', '2.00': '2', '3.00': '3', '5.00': '5',
-            '7.00': '7', '10.00': '10', '12.00': '12', '15.00': '15'
-        };
+        let lastTouchEnd = 0;
 
-        function updateDisplay(priceStr) {
-            const count = counts[priceStr];
-            const price = parseFloat(priceStr);
-            const subtotal = count * price;
-            const suffix = idMap[priceStr];
-
-            document.getElementById(`count-${suffix}`).textContent = count;
-            document.getElementById(`sub-${suffix}`).textContent = `Subtotal: $${subtotal.toFixed(2)}`;
-            
-            calculateGrandTotal();
+        function formatMoney(val) {
+            return '$' + val.toFixed(2);
         }
 
-        function calculateGrandTotal() {
+        function updateUI() {
             let total = 0;
-            for (const priceStr in counts) {
-                total += counts[priceStr] * parseFloat(priceStr);
+            let hasActiveItems = false;
+
+            Object.keys(state).forEach(priceKey => {
+                const count = state[priceKey];
+                if (count > 0) hasActiveItems = true;
+
+                const sub = count * parseFloat(priceKey);
+                total += sub;
+
+                const domKey = priceKey.replace('.', '');
+                document.getElementById(`count-${domKey}`).textContent = count;
+                document.getElementById(`sub-${domKey}`).textContent = `Subtotal: ${formatMoney(sub)}`;
+            });
+            
+            document.getElementById('grand-total').textContent = formatMoney(total);
+
+            // Dynamic tracking for Reset All Button
+            const resetBtn = document.getElementById('reset-btn');
+            if (hasActiveItems) {
+                resetBtn.className = "btn-reset active";
+                resetBtn.removeAttribute('disabled');
+            } else {
+                resetBtn.className = "btn-reset inactive";
+                resetBtn.setAttribute('disabled', 'true');
             }
-            document.getElementById('grand-total').textContent = `$${total.toFixed(2)}`;
         }
 
-        // Setup touch and click handler to bypass Safari double-tap zoom
-        document.querySelectorAll('.btn').forEach(button => {
-            const card = button.closest('.gift-card');
-            const priceStr = card.getAttribute('data-price');
-            const action = button.getAttribute('data-action');
+        function handleStep(e) {
+            e.preventDefault();
+            
+            const btn = e.currentTarget;
+            const gridItem = btn.closest('.grid-item');
+            const price = gridItem.getAttribute('data-price');
+            const action = btn.getAttribute('data-action');
 
-            function handlePress(e) {
-                e.preventDefault(); // Prevents default ghost clicks and zooming behaviors
-                if (action === 'plus') {
-                    counts[priceStr]++;
-                } else if (action === 'minus' && counts[priceStr] > 0) {
-                    counts[priceStr]--;
-                }
-                updateDisplay(priceStr);
+            if (action === 'plus') {
+                state[price]++;
+            } else if (action === 'minus' && state[price] > 0) {
+                state[price]--;
             }
+            updateUI();
+        }
 
-            // Bind to touchend for instant mobile response without triggering zoom behavior
-            button.addEventListener('touchend', handlePress, { passive: false });
-            // Fallback for mouse environments
-            button.addEventListener('click', (e) => {
-                // If touch events are supported, click is redundant and blocked by preventDefault above
-                if (e.screenX === 0 && e.screenY === 0) return; // blocks simulated text clicks
-                if ('ontouchstart' in window) return;
-                
-                if (action === 'plus') {
-                    counts[priceStr]++;
-                } else if (action === 'minus' && counts[priceStr] > 0) {
-                    counts[priceStr]--;
-                }
-                updateDisplay(priceStr);
+        // Apply fast touch event listener loops
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('touchstart', handleStep, { passive: false });
+            btn.addEventListener('click', (e) => {
+                if (e.screenX === 0 && e.screenY === 0) return;
+                handleStep(e);
             });
         });
 
+        // Anti double-tap magnification loop intercept
+        document.addEventListener('touchend', (e) => {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
         document.getElementById('reset-btn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to clear all current totals?')) {
-                for (const key in counts) {
-                    counts[key] = 0;
-                    updateDisplay(key);
-                }
+            if (confirm('Clear all tally amounts?')) {
+                Object.keys(state).forEach(k => state[k] = 0);
+                updateUI();
             }
         });
+
+        updateUI();
     </script>
 </body>
 </html>
