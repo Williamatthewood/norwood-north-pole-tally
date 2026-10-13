@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Norwood North Pole Tally</title>
+    <style>
+        :root {
+            --purple: #4B2E83;
+            --yellow: #F6CE15;
+            --dark-gray: #333333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none; /* Prevents accidental text selection while tapping fast */
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: var(--dark-gray);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Prevent overall body scroll, manage views internally */
+        }
+
+        header {
+            background-color: var(--purple);
+            color: white;
+            padding: 8px 12px;
+            text-align: center;
+            border-bottom: 3px solid var(--yellow);
+            flex-shrink: 0;
+        }
+
+        header h1 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            color: var(--yellow);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        header p {
+            font-size: 0.75rem;
+            line-height: 1.2;
+            font-weight: 500;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 6px;
+            border-radius: 4px;
+        }
+
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 6px;
+            overflow: hidden;
+        }
+
+        /* 3x3 Grid Layout designed to fit standard phone viewports without scrolling */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 6px;
+            flex: 1;
+            margin-bottom: 6px;
+        }
+
+        .card {
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            border: 1px solid rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        /* Distinct Color Coding per Price Point */
+        .price-075 { background-color: #E3F2FD; border-left: 5px solid #1E88E5; } /* Light Blue */
+        .price-1   { background-color: #F1F8E9; border-left: 5px solid #7CB342; } /* Light Green */
+        .price-2   { background-color: #FFFDE7; border-left: 5px solid #FBC02D; } /* Light Yellow */
+        .price-3   { background-color: #FFF3E0; border-left: 5px solid #FB8C00; } /* Light Orange */
+        .price-5   { background-color: #FFEBEE; border-left: 5px solid #E53935; } /* Light Red */
+        .price-7   { background-color: #F3E5F5; border-left: 5px solid #8E24AA; } /* Light Purple */
+        .price-10  { background-color: #E0F2F1; border-left: 5px solid #00897B; } /* Teal */
+        .price-12  { background-color: #E8EAF6; border-left: 5px solid #3949AB; } /* Indigo */
+        .price-15  { background-color: #EFEBE9; border-left: 5px solid #6D4C41; } /* Brown */
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 4px;
+        }
+
+        .price-label {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .qty-badge {
+            background-color: var(--dark-gray);
+            color: white;
+            border-radius: 10px;
+            padding: 1px 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .card.active-qty .qty-badge {
+            background-color: #000;
+            transform: scale(1.1);
+        }
+
+        .subtotal-label {
+            font-size: 0.7rem;
+            color: #555;
+            text-align: center;
+            font-weight: 600;
+            margin: auto 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 4px;
+        }
+
+        .btn {
+            flex: 1;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 8px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.1s ease;
+        }
+
+        .btn:active {
+            opacity: 0.7;
+        }
+
+        .btn-minus {
+            background-color: #757575;
+            font-size: 1rem;
+        }
+
+        .btn-plus {
+            background-color: #2E7D32;
+        }
+
+        footer {
+            background-color: var(--dark-gray);
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
+            flex-shrink: 0;
+        }
+
+        .total-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .total-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #BDBDBD;
+            letter-spacing: 0.5px;
+        }
+
+        .total-amount {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--yellow);
+        }
+
+        .footer-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-reset {
+            background-color: #C62828;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Media queries to fine-tune layout on exceptionally short screens */
+        @media (max-height: 560px) {
+            header h1 { font-size: 1rem; }
+            header p { font-size: 0.65rem; padding: 2px 4px; }
+            .price-label { font-size: 0.95rem; }
+            .btn { padding: 4px 0; }
+            .total-amount { font-size: 1.4rem; }
+            .subtotal-label { font-size: 0.65rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Norwood North Pole</h1>
+        <p>Please tally amount of gifts by cost and record on CheddarUp Digital Wallet sheet or collect cash/check from student.</p>
+    </header>
+
+    <div class="main-container">
+        <div class="grid">
+            <!-- $0.75 Card -->
+            <div class="card price-075" id="card-075">
+                <div class="card-header">
+                    <span class="price-label">$0.75</span>
+                    <span class="qty-badge" id="qty-075">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-075">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('075', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('075', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- $1.00 Card -->
+            <div class="card price-1" id="card-1">
+                <div class="card-header">
+                    <span class="price-label">$1</span>
+                    <span class="qty-badge" id="qty-1">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-1">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('1', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('1', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- $2.00 Card -->
+            <div class="card price-2" id="card-2">
+                <div class="card-header">
+                    <span class="price-label">$2</span>
+                    <span class="qty-badge" id="qty-2">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-2">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('2', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('2', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- $3.00 Card -->
+            <div class="card price-3" id="card-3">
+                <div class="card-header">
+                    <span class="price-label">$3</span>
+                    <span class="qty-badge" id="qty-3">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-3">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('3', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('3', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- $5.00 Card -->
+            <div class="card price-5" id="card-5">
+                <div class="card-header">
+                    <span class="price-label">$5</span>
+                    <span class="qty-badge" id="qty-5">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-5">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('5', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('5', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- $7.00 Card -->
+            <div class="card price-7" id="card-7">
+                <div class="card-header">
+                    <span class="price-label">$7</span>
+                    <span class="qty-badge" id="qty-7">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-7">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('7', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('7', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- $10.00 Card -->
+            <div class="card price-10" id="card-10">
+                <div class="card-header">
+                    <span class="price-label">$10</span>
+                    <span class="qty-badge" id="qty-10">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-10">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('10', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('10', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- $12.00 Card -->
+            <div class="card price-12" id="card-12">
+                <div class="card-header">
+                    <span class="price-label">$12</span>
+                    <span class="qty-badge" id="qty-12">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-12">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('12', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('12', 1)">+</button>
+                </div>
+            </div>
+
+            <!-- $15.00 Card -->
+            <div class="card price-15" id="card-15">
+                <div class="card-header">
+                    <span class="price-label">$15</span>
+                    <span class="qty-badge" id="qty-15">0</span>
+                </div>
+                <div class="subtotal-label" id="sub-15">0 gifts Subtotal: $0.00</div>
+                <div class="controls">
+                    <button class="btn btn-minus" onclick="changeQty('15', -1)">-</button>
+                    <button class="btn btn-plus" onclick="changeQty('15', 1)">+</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="total-section">
+                <span class="total-title">Total Amount Due</span>
+                <span class="total-amount" id="grand-total">$0.00</span>
+            </div>
+            <div class="footer-btns">
+                <button class="btn-reset" onclick="resetAll()">Reset</button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const prices = {
+            '075': 0.75,
+            '1': 1.00,
+            '2': 2.00,
+            '3': 3.00,
+            '5': 5.00,
+            '7': 7.00,
+            '10': 10.00,
+            '12': 12.00,
+            '15': 15.00
+        };
+
+        const quantities = {
+            '075': 0, '1': 0, '2': 0, '3': 0, '5': 0, '7': 0, '10': 0, '12': 0, '15': 0
+        };
+
+        function changeQty(id, delta) {
+            let newQty = quantities[id] + delta;
+            if (newQty >= 0) {
+                quantities[id] = newQty;
+                updateDOM(id);
+            }
+        }
+
+        function updateDOM(id) {
+            const qtyEl = document.getElementById(`qty-${id}`);
+            const subEl = document.getElementById(`sub-${id}`);
+            const cardEl = document.getElementById(`card-${id}`);
+            
+            const qty = quantities[id];
+            const price = prices[id];
+            const subtotal = qty * price;
+
+            // Update individual fields
+            qtyEl.innerText = qty;
+            subEl.innerText = `${qty} gifts Subtotal: $${subtotal.toFixed(2)}`;
+
+            // Visual indicator for non-zero items
+            if (qty > 0) {
+                cardEl.classList.add('active-qty');
+            } else {
+                cardEl.classList.remove('active-qty');
+            }
+
+            calculateGrandTotal();
+        }
+
+        function calculateGrandTotal() {
+            let grandTotal = 0;
+            for (let id in quantities) {
+                grandTotal += quantities[id] * prices[id];
+            }
+            document.getElementById('grand-total').innerText = `$${grandTotal.toFixed(2)}`;
+        }
+
+        function resetAll() {
+            if (confirm("Are you sure you want to clear all current totals?")) {
+                for (let id in quantities) {
+                    quantities[id] = 0;
+                    updateDOM(id);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
