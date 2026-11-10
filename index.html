@@ -6,8 +6,8 @@
     <title>Norwood North Pole Tally</title>
     <style>
         :root {
-            --purple: #4B2E83;
-            --yellow: #F6CE15;
+            --purple-school: #4B2E83;
+            --yellow-school: #F6CE15;
             --dark-text: #222222;
         }
 
@@ -28,31 +28,31 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            height: 100dvh; /* Uses full mobile viewport dynamic height */
+            height: 100dvh; /* Dynamic mobile viewport height */
             overflow: hidden;
         }
 
         /* Responsive Banner Section utilizing fluid padding */
         header {
-            background-color: var(--purple);
+            background-color: var(--purple-school);
             color: white;
-            padding: min(3vh, 12px) 14px;
+            padding: min(2.5vh, 12px) 14px;
             text-align: center;
-            border-bottom: 4px solid var(--yellow);
+            border-bottom: 4px solid var(--yellow-school);
             flex-shrink: 0;
         }
 
         header h1 {
-            font-size: min(4vw, 1.25rem);
+            font-size: min(4.2vw, 1.3rem);
             font-weight: 800;
-            color: var(--yellow);
+            color: var(--yellow-school);
             margin-bottom: 2px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         header p {
-            font-size: min(3vw, 0.78rem);
+            font-size: min(3.2vw, 0.8rem);
             line-height: 1.25;
             font-weight: 500;
             max-width: 480px;
@@ -64,84 +64,98 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: repeat(4, 1fr);
-            gap: 4px;
-            padding: 4px;
+            gap: 5px;
+            padding: 5px;
             flex-grow: 1;
             overflow: hidden;
         }
 
         .grid-item {
-            border-radius: 6px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: min(1.5vh, 6px) min(2vw, 8px);
+            padding: min(1.2vh, 6px) min(2.5vw, 10px);
             position: relative;
-            box-shadow: inset 0 -2px 0 rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
         }
 
-        /* Purple Running Count Badge at top right */
+        /* Running Count Badge at top right */
         .count-badge {
             position: absolute;
-            top: 4px;
-            right: 6px;
-            background-color: var(--purple);
-            color: var(--yellow);
-            font-size: min(3vw, 0.8rem);
+            top: 6px;
+            right: 8px;
+            background-color: var(--purple-school);
+            color: var(--yellow-school);
+            font-size: min(3.2vw, 0.8rem);
             font-weight: bold;
-            padding: 1px 6px;
-            border-radius: 10px;
+            padding: 2px 7px;
+            border-radius: 12px;
             min-width: 20px;
             text-align: center;
+            border: 1px solid var(--yellow-school);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
 
-        /* Inline and wrappable price label scales dynamically with viewports */
+        /* Dark background elements toggle white counts */
+        .light-text .count-badge {
+            background-color: #ffffff;
+            color: #111111;
+            border: 1px solid #ffffff;
+        }
+
+        /* Inline and wrappable price labels */
         .price-label {
-            font-size: min(4.5vw, 1.15rem);
+            font-size: min(4.5vw, 1.2rem);
             font-weight: 800;
-            color: #111;
             line-height: 1.2;
             word-wrap: break-word;
-            padding-right: 24px; /* Prevent text overlap with top right count badge */
+            padding-right: 28px;
+            color: #111111;
         }
 
         .price-color-text {
-            font-size: min(3.5vw, 0.82rem);
+            font-size: min(3.5vw, 0.85rem);
             font-weight: 600;
-            color: #555;
-            white-space: normal;
+            color: #444444;
         }
 
         /* Simplified clean subtotal label */
         .subtotal-label {
-            font-size: min(3.2vw, 0.72rem);
-            font-weight: 600;
-            color: #555;
+            font-size: min(3.5vw, 0.78rem);
+            font-weight: 700;
+            color: #333333;
             margin-bottom: auto;
-            padding-top: 1px;
+            padding-top: 2px;
         }
+
+        /* Text color overrides for deep dark background thresholds */
+        .light-text .price-label { color: #ffffff; }
+        .light-text .price-color-text { color: #dddddd; }
+        .light-text .subtotal-label { color: #ffffff; }
 
         .button-group {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             width: 100%;
             margin-top: auto;
+            padding-top: 4px;
         }
 
-        /* Dynamically scaling button dimensions to prevent layout spill on small phones */
+        /* Constant button baseline formatting */
         .btn {
             flex: 1;
             border: none;
             color: white;
-            font-size: min(5.5vw, 1.2rem);
+            font-size: min(5.5vw, 1.25rem);
             font-weight: bold;
-            padding: min(1.4vh, 6px) 0;
+            padding: min(1.2vh, 6px) 0;
             border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 1.5px 0 rgba(0,0,0,0.15);
             touch-action: manipulation;
+            box-shadow: 0 2px 0 rgba(0,0,0,0.2);
         }
 
         .btn:active {
@@ -149,20 +163,21 @@
             box-shadow: none;
         }
 
-        .btn-minus { background-color: #d9534f; }
-        .btn-plus { background-color: #5cb85c; }
+        /* Button color definitions stay exactly constant across all backgrounds */
+        .btn-minus { background-color: #d9534f !important; color: #ffffff !important; border: none !important; }
+        .btn-plus { background-color: #5cb85c !important; color: #ffffff !important; border: none !important; }
 
-        /* Color Scheme Configurations matching user specifications */
-        .item-025 { background-color: #ffffff; border: 1.2px solid #b5b5b5; } /* White */
-        .item-075 { background-color: #f2f2f2; border: 1.2px solid #999999; } /* Gray */
-        .item-100 { background-color: #e8f5e9; border: 1.2px solid #4caf50; } /* Green */
-        .item-300 { background-color: #ffebee; border: 1.2px solid #ef5350; } /* Red */
-        .item-500 { background-color: #e3f2fd; border: 1.2px solid #2196f3; } /* Blue */
-        .item-700 { background-color: #fff3e0; border: 1.2px solid #ff9800; } /* Orange */
-        .item-1000 { background-color: #f3e5f5; border: 1.2px solid #9c27b0; } /* Purple */
-        .item-1200 { background-color: #fffde7; border: 1.2px solid #fbc02d; } /* Yellow */
+        /* Specific Deep/Dark Vibrant Configurations */
+        .item-025 { background-color: #ffffff; border: 1.5px solid #b5b5b5; } /* White - Dark text */
+        .item-075 { background-color: #666666; border: 1.5px solid #444444; } /* Dark Gray - White text */
+        .item-100 { background-color: #1b5e20; border: 1.5px solid #0d3c12; } /* Dark Green - White text */
+        .item-300 { background-color: #b71c1c; border: 1.5px solid #7f0000; } /* Dark Red - White text */
+        .item-500 { background-color: #0d47a1; border: 1.5px solid #0a2f6c; } /* Dark Blue - White text */
+        .item-700 { background-color: #e65100; border: 1.5px solid #b23c00; } /* Dark Orange - White text */
+        .item-1000 { background-color: #4a148c; border: 1.5px solid #320b5f; } /* Dark Purple - White text */
+        .item-1200 { background-color: #ffeb3b; border: 1.5px solid #fbc02d; } /* Yellow - Dark text */
 
-        /* Responsive Bottom Summary Panel */
+        /* Bottom Summary Panel */
         footer {
             background-color: #1a1a1a;
             color: white;
@@ -170,7 +185,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-top: 4px solid var(--yellow);
+            border-top: 4px solid var(--yellow-school);
             flex-shrink: 0;
         }
 
@@ -180,7 +195,7 @@
         }
 
         .total-title {
-            font-size: min(3vw, 0.7rem);
+            font-size: min(3vw, 0.72rem);
             text-transform: uppercase;
             color: #b3b3b3;
             font-weight: 700;
@@ -188,21 +203,21 @@
         }
 
         .total-amount {
-            font-size: min(7vw, 1.85rem);
+            font-size: min(7vw, 1.9rem);
             font-weight: 900;
-            color: var(--yellow);
+            color: var(--yellow-school);
             line-height: 1;
         }
 
         /* Dynamic Conditional State Reset Button */
         .btn-reset {
             padding: min(1.8vh, 8px) 14px;
-            font-size: min(3.5vw, 0.82rem);
+            font-size: min(3.5vw, 0.85rem);
             font-weight: 800;
             border-radius: 5px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
             touch-action: manipulation;
             border: none;
         }
@@ -231,11 +246,11 @@
 
     <header>
         <h1>Norwood North Pole</h1>
-        <p>Please tally amount of gifts by color/cost to help students stay in budget. If possible, tell checkout volunteer how many gifts of each color.</p>
+        <p>Please tally amount of gifts by cost and record on CheddarUp Digital Wallet sheet or collect cash/check from student.</p>
     </header>
 
     <div class="grid-container">
-        <!-- 0.25 -->
+        <!-- $0.25 -->
         <div class="grid-item item-025" data-price="0.25">
             <div class="count-badge" id="count-025">0</div>
             <div class="price-label">$0.25 <span class="price-color-text">(White)</span></div>
@@ -245,8 +260,8 @@
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-        <!-- 0.75 -->
-        <div class="grid-item item-075" data-price="0.75">
+        <!-- $0.75 -->
+        <div class="grid-item item-075 light-text" data-price="0.75">
             <div class="count-badge" id="count-075">0</div>
             <div class="price-label">$0.75 <span class="price-color-text">(Gray)</span></div>
             <div class="subtotal-label" id="sub-075">Subtotal: $0.00</div>
@@ -255,8 +270,8 @@
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-        <!-- 1.00 -->
-        <div class="grid-item item-100" data-price="1.00">
+        <!-- $1 -->
+        <div class="grid-item item-100 light-text" data-price="1.00">
             <div class="count-badge" id="count-100">0</div>
             <div class="price-label">$1 <span class="price-color-text">(Green)</span></div>
             <div class="subtotal-label" id="sub-100">Subtotal: $0.00</div>
@@ -265,8 +280,8 @@
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-        <!-- 3.00 -->
-        <div class="grid-item item-300" data-price="3.00">
+        <!-- $3 -->
+        <div class="grid-item item-300 light-text" data-price="3.00">
             <div class="count-badge" id="count-300">0</div>
             <div class="price-label">$3 <span class="price-color-text">(Red)</span></div>
             <div class="subtotal-label" id="sub-300">Subtotal: $0.00</div>
@@ -275,8 +290,7 @@
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-        <!-- 5.00 -->
-        <div class="grid-item item-500" data-price="5.00">
+        <div class="grid-item item-500 light-text" data-price="5.00">
             <div class="count-badge" id="count-500">0</div>
             <div class="price-label">$5 <span class="price-color-text">(Blue)</span></div>
             <div class="subtotal-label" id="sub-500">Subtotal: $0.00</div>
@@ -285,8 +299,7 @@
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-        <!-- 7.00 -->
-        <div class="grid-item item-700" data-price="7.00">
+        <div class="grid-item item-700 light-text" data-price="7.00">
             <div class="count-badge" id="count-700">0</div>
             <div class="price-label">$7 <span class="price-color-text">(Orange)</span></div>
             <div class="subtotal-label" id="sub-700">Subtotal: $0.00</div>
@@ -295,8 +308,7 @@
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-        <!-- 10.00 -->
-        <div class="grid-item item-1000" data-price="10.00">
+        <div class="grid-item item-1000 light-text" data-price="10.00">
             <div class="count-badge" id="count-1000">0</div>
             <div class="price-label">$10 <span class="price-color-text">(Purple)</span></div>
             <div class="subtotal-label" id="sub-1000">Subtotal: $0.00</div>
@@ -305,7 +317,6 @@
                 <button class="btn btn-plus" data-action="plus">+</button>
             </div>
         </div>
-        <!-- 12.00 -->
         <div class="grid-item item-1200" data-price="12.00">
             <div class="count-badge" id="count-1200">0</div>
             <div class="price-label">$12 <span class="price-color-text">(Yellow)</span></div>
